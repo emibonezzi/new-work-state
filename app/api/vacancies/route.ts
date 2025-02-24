@@ -1,8 +1,8 @@
 import Vacancy from "../../../schemas/vacancySchema";
 import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   let page = searchParams.get("page") || 1; // default page 1
   let limit = searchParams.get("limit") || 10; // default limit 10
