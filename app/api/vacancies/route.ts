@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   let page = searchParams.get("page") || 1; // default page 1
-  let limit = searchParams.get("limit") || 10; // default limit 10
+  let limit = searchParams.get("limit") || 25; // default limit 10
 
   // convert params to number
   page = typeof page === "string" ? parseInt(page) : page;
