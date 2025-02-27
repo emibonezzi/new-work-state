@@ -1,6 +1,6 @@
+import { NextRequest } from "next/server";
 import Vacancy from "../../../schemas/vacancySchema";
 import mongoose from "mongoose";
-import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

@@ -1,17 +1,25 @@
-import Vacancy from "@/types/vacancy";
-import JobCard from "./components/JobCard";
 import FilterBox from "./components/FilterBox";
+import JobsDashboard from "./components/JobsDashboard";
 
-export default async function Home() {
-  const res = await fetch(
-    `${process.env.BACKEND_URL}/api/vacancies?page=1&limit=25`
-  );
-  const data = await res.json();
+interface Props {
+  searchParams?: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}
+
+export default async function Home(props: Props) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
+
+  console.log("Requesting page", currentPage, "with query", query);
+
   return (
     <div className="m-5">
       <header className="grid grid-cols-2">
         <div id="logo" className="flex items-center gap-4">
-          <img src="/new-work-state-logo.svg" />
+          <img />
           <h1 className="text-3xl">New Work State</h1>
         </div>
 
@@ -36,30 +44,7 @@ export default async function Home() {
               ]}
             ></FilterBox>
           </aside>
-          <section id="job-dashboard" className="flex flex-col gap-3">
-            <div className="border border-[rgb(11_93_102)] rounded-lg p-4 flex justify-between items-center">
-              <select name="" id="">
-                <option value="">Most Recent</option>
-                <option value="">Salary (Low to High)</option>
-                <option value="">Salary (High to Low)</option>
-                <option value="">Title (A-Z)</option>
-                <option value="">Title (Z-A)</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Search for a job"
-                className="border border-[rgb(11_93_102)] rounded-lg p-2"
-              />
-            </div>
-            <div
-              id="dashboard-jobs"
-              className="grid grid-cols-[1fr_1fr_1fr] gap-3"
-            >
-              {data.vacancies.map((vacancy: Vacancy) => (
-                <JobCard key={vacancy._id} vacancy={vacancy}></JobCard>
-              ))}
-            </div>
-          </section>
+          <JobsDashboard query={query} currentPage={currentPage} />
         </div>
         <div id="pagination" className="flex justify-end gap-3">
           <button>Previous</button>
