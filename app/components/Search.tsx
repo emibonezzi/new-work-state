@@ -1,12 +1,11 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const Search = ({ placeholder }: { placeholder: string }) => {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
+  const router = useRouter();
 
   function handleSearch(term: string) {
     const params = new URLSearchParams(searchParams);
@@ -16,7 +15,7 @@ const Search = ({ placeholder }: { placeholder: string }) => {
       params.delete("query");
     }
 
-    replace(`/api/vacancies/search?${params.toString()}`);
+    router.push("?" + params.toString());
   }
   return (
     <input

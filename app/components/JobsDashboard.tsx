@@ -10,7 +10,7 @@ interface Props {
 
 const JobsDashboard = async ({ query, currentPage }: Props) => {
   const res = await fetch(
-    `${process.env.BACKEND_URL}/api/vacancies/search?page=${currentPage}`
+    `${process.env.BACKEND_URL}/api/vacancies/search?page=${currentPage}&query=${query}`
   );
   const data = await res.json();
 
