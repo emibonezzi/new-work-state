@@ -8,8 +8,6 @@ export async function GET(req: NextRequest) {
   const page = Number(params.get("page")) || 1;
   const limit = Number(params.get("limit")) || 25;
 
-  /* return Response.json({ message: `${page}, ${limit}, ${query}` }); */
-
   try {
     // connect to db
     await mongoose.connect(
@@ -17,6 +15,7 @@ export async function GET(req: NextRequest) {
     );
 
     let vacancies;
+    let totalVacancies;
 
     if (query === "") {
       // if no query, return all vacancies
@@ -24,6 +23,9 @@ export async function GET(req: NextRequest) {
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ _id: -1 });
+      totalVacancies = await Vacancy.countDocuments({
+        $text: { $search: query },
+      });
     } else {
       // search for vacancies
       vacancies = await Vacancy.find({
@@ -32,9 +34,12 @@ export async function GET(req: NextRequest) {
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ _id: -1 });
+
+      totalVacancies = await Vacancy.countDocuments({
+        $text: { $search: query },
+      });
     }
 
-    const totalVacancies = await Vacancy.countDocuments();
     return Response.json({
       totalPages: Math.ceil(totalVacancies / limit), // total pages
       currentPage: page,
