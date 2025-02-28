@@ -46,13 +46,6 @@ export default async function Home(props: Props) {
           </aside>
           <JobsDashboard query={query} currentPage={currentPage} />
         </div>
-        <div id="pagination" className="flex justify-end gap-3">
-          <button>Previous</button>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>Next</button>
-        </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
     </div>
