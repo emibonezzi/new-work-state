@@ -1,4 +1,5 @@
 "use client";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -7,13 +8,27 @@ interface Props {
 }
 
 const Pagination = ({ totalPages, currentPage }: Props) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  function handleClick(direction: string) {
+    const params = new URLSearchParams(searchParams);
+    if (direction === "next") {
+      params.set("page", `${currentPage + 1}`);
+      router.push("?" + params.toString());
+    } else {
+      params.set("page", `${currentPage - 1}`);
+      router.push("?" + params.toString());
+    }
+  }
+
   return (
     <div id="pagination" className="flex justify-end gap-3">
-      <button>Previous</button>
+      <button onClick={() => handleClick("previous")}>Previous</button>
       <span>
         {currentPage} of {totalPages} pages
       </span>
-      <button>Next</button>
+      <button onClick={() => handleClick("next")}>Next</button>
     </div>
   );
 };
