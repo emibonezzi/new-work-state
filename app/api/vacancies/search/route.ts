@@ -23,9 +23,7 @@ export async function GET(req: NextRequest) {
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ _id: -1 });
-      totalVacancies = await Vacancy.countDocuments({
-        $text: { $search: query },
-      });
+      totalVacancies = await Vacancy.countDocuments();
     } else {
       // search for vacancies
       vacancies = await Vacancy.find({

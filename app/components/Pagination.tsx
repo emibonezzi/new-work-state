@@ -24,11 +24,21 @@ const Pagination = ({ totalPages, currentPage }: Props) => {
 
   return (
     <div id="pagination" className="flex justify-end gap-3">
-      <button onClick={() => handleClick("previous")}>Previous</button>
+      <button
+        disabled={currentPage === 1 ? true : false}
+        onClick={() => handleClick("previous")}
+      >
+        Previous
+      </button>
       <span>
         {currentPage} of {totalPages} pages
       </span>
-      <button onClick={() => handleClick("next")}>Next</button>
+      <button
+        disabled={currentPage === totalPages ? true : false}
+        onClick={() => handleClick("next")}
+      >
+        Next
+      </button>
     </div>
   );
 };

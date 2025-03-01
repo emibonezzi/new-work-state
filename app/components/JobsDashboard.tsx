@@ -23,9 +23,11 @@ const JobsDashboard = async ({ query, currentPage }: Props) => {
           <Search placeholder="Search for a job..." />
         </div>
         <div id="dashboard-jobs" className="grid grid-cols-[1fr_1fr_1fr] gap-3">
-          {data.vacancies.map((vacancy: Vacancy) => (
-            <JobCard key={vacancy.vacancy_id} vacancy={vacancy} />
-          ))}
+          {data.vacancies
+            .filter((v) => v.active)
+            .map((vacancy: Vacancy) => (
+              <JobCard key={vacancy.vacancy_id} vacancy={vacancy} />
+            ))}
         </div>
       </section>
       <Pagination totalPages={data.totalPages} currentPage={data.currentPage} />
