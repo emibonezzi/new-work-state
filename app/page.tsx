@@ -1,4 +1,4 @@
-import FilterBox from "./components/FilterBox";
+import FiltersSection from "./components/FiltersSection";
 import JobsDashboard from "./components/JobsDashboard";
 
 interface Props {
@@ -31,19 +31,7 @@ export default async function Home(props: Props) {
 
       <main className="flex flex-col gap-3 mt-3">
         <div className="grid grid-cols-[1fr_4fr] gap-3">
-          <aside id="job-filters" className="flex flex-col gap-3">
-            <FilterBox
-              name="Salary Range"
-              options={[
-                "$0 - $20,000",
-                "$20,000 - $40,000",
-                "$40,000 - $60,000",
-                "$60,000 - $80,000",
-                "$80,000 - $100,000",
-                "$100,000+",
-              ]}
-            ></FilterBox>
-          </aside>
+          <FiltersSection />
           <JobsDashboard query={query} currentPage={currentPage} />
         </div>
       </main>
