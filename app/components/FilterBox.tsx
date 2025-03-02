@@ -6,11 +6,12 @@ interface Props {
 }
 
 const FilterBox = ({ name, options }: Props) => {
+  console.log(options);
   return (
     <div className="border border-[rgb(11_93_102)] rounded-lg p-4">
       <h3>{name}</h3>
       <ul>
-        {options.map((option) => (
+        {options.sort().map((option) => (
           <li key={option}>{option}</li>
         ))}
       </ul>

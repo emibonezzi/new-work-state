@@ -9,7 +9,7 @@ export async function GET() {
 
     const allFilters = await Filter.find();
 
-    return Response.json(allFilters);
+    return Response.json({ filters: allFilters });
   } catch (error) {
     console.log(error);
   }
