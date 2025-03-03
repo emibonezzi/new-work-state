@@ -13,6 +13,7 @@ const FiltersSection = async () => {
         <FilterBox
           key={i}
           name={filter.filter_name}
+          field={filter.filter_field}
           options={filter.filters_values}
         />
       ))}

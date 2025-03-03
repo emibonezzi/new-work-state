@@ -1,18 +1,37 @@
-import React from "react";
+"use client";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface Props {
   name: string;
+  field: string;
   options: string[];
 }
 
-const FilterBox = ({ name, options }: Props) => {
-  console.log(options);
+const FilterBox = ({ name, field, options }: Props) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  function handleClick(value: string) {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set(field, value);
+    } else {
+      params.delete(field);
+    }
+
+    router.push("?" + params.toString());
+  }
+
   return (
     <div className="border border-[rgb(11_93_102)] rounded-lg p-4">
       <h3>{name}</h3>
       <ul>
-        {options.sort().map((option) => (
-          <li key={option}>{option}</li>
+        {options.sort().map((option, i) => (
+          <li key={i}>
+            <button value={option} onClick={(e) => handleClick(e.target.value)}>
+              {option}
+            </button>
+          </li>
         ))}
       </ul>
     </div>

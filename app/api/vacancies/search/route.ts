@@ -3,10 +3,9 @@ import mongoose from "mongoose";
 import Vacancy from "../../../../schemas/vacancySchema";
 
 export async function GET(req: NextRequest) {
-  const params = req.nextUrl.searchParams;
-  const query = params.get("query") || "";
-  const page = Number(params.get("page")) || 1;
-  const limit = Number(params.get("limit")) || 25;
+  const params = Object.fromEntries(req.nextUrl.searchParams);
+
+  console.log(params);
 
   try {
     // connect to db
@@ -17,30 +16,26 @@ export async function GET(req: NextRequest) {
     let vacancies;
     let totalVacancies;
 
-    if (query === "") {
+    if (Object.keys(params).length === 0) {
       // if no query, return all vacancies
       vacancies = await Vacancy.find({})
-        .limit(limit)
-        .skip((page - 1) * limit)
+        .limit(25)
+        .skip((1 - 1) * 25)
         .sort({ _id: -1 });
       totalVacancies = await Vacancy.countDocuments();
     } else {
       // search for vacancies
-      vacancies = await Vacancy.find({
-        $text: { $search: query },
-      })
-        .limit(limit)
-        .skip((page - 1) * limit)
+      vacancies = await Vacancy.find(params)
+        .limit(25)
+        .skip((1 - 1) * 25)
         .sort({ _id: -1 });
 
-      totalVacancies = await Vacancy.countDocuments({
-        $text: { $search: query },
-      });
+      totalVacancies = await Vacancy.countDocuments(params);
     }
 
     return Response.json({
-      totalPages: Math.ceil(totalVacancies / limit), // total pages
-      currentPage: page,
+      totalPages: Math.ceil(totalVacancies / 25), // total pages
+      currentPage: 1,
       vacancies,
     });
   } catch (error) {

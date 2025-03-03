@@ -4,17 +4,22 @@ import JobCard from "./JobCard";
 import Vacancy from "@/types/vacancy";
 import Pagination from "./Pagination";
 import VacancyResponse from "@/types/vacancyResponse";
+import Query from "@/types/query";
+import axios from "axios";
 
 interface Props {
-  query: string;
+  query: Query;
   currentPage: number;
 }
 
-const JobsDashboard = async ({ query, currentPage }: Props) => {
-  const res = await fetch(
-    `${process.env.BACKEND_URL}/api/vacancies/search?page=${currentPage}&query=${query}`
+const JobsDashboard = async ({ query }: Props) => {
+  const res = await axios.get(
+    `${process.env.BACKEND_URL}/api/vacancies/search`,
+    {
+      params: query,
+    }
   );
-  const data: VacancyResponse = await res.json();
+  const data: VacancyResponse = await res.data;
 
   return (
     <div>
