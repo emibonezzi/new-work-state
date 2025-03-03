@@ -15,6 +15,9 @@ const FilterBox = ({ name, field, options }: Props) => {
     const params = new URLSearchParams(searchParams);
     if (value) {
       params.set(field, value);
+      if (params.get("page")) {
+        params.delete("page");
+      }
     } else {
       params.delete(field);
     }
@@ -26,9 +29,19 @@ const FilterBox = ({ name, field, options }: Props) => {
     <div className="border border-[rgb(11_93_102)] rounded-lg p-4">
       <h3>{name}</h3>
       <ul>
+        <button
+          onClick={(e) => handleClick((e.target as HTMLButtonElement).value)}
+        >
+          None
+        </button>
         {options.sort().map((option, i) => (
           <li key={i}>
-            <button value={option} onClick={(e) => handleClick(e.target.value)}>
+            <button
+              value={option}
+              onClick={(e) =>
+                handleClick((e.target as HTMLButtonElement).value)
+              }
+            >
               {option}
             </button>
           </li>

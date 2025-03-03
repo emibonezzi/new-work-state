@@ -8,15 +8,15 @@ import Query from "@/types/query";
 import axios from "axios";
 
 interface Props {
-  query: Query;
+  query: Query | undefined;
   currentPage: number;
 }
 
-const JobsDashboard = async ({ query }: Props) => {
+const JobsDashboard = async ({ query, currentPage }: Props) => {
   const res = await axios.get(
     `${process.env.BACKEND_URL}/api/vacancies/search`,
     {
-      params: query,
+      params: { ...query, page: currentPage },
     }
   );
   const data: VacancyResponse = await res.data;
@@ -35,7 +35,11 @@ const JobsDashboard = async ({ query }: Props) => {
             ))}
         </div>
       </section>
-      <Pagination totalPages={data.totalPages} currentPage={data.currentPage} />
+      <Pagination
+        totalVacancies={data.vacancies.length}
+        totalPages={data.totalPages}
+        currentPage={data.currentPage}
+      />
     </div>
   );
 };

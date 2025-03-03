@@ -5,9 +5,10 @@ import React from "react";
 interface Props {
   totalPages: number;
   currentPage: number;
+  totalVacancies: number;
 }
 
-const Pagination = ({ totalPages, currentPage }: Props) => {
+const Pagination = ({ totalPages, currentPage, totalVacancies }: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -39,6 +40,7 @@ const Pagination = ({ totalPages, currentPage }: Props) => {
       >
         Next
       </button>
+      <span>{totalVacancies}</span>
     </div>
   );
 };

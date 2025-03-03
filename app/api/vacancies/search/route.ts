@@ -3,7 +3,12 @@ import mongoose from "mongoose";
 import Vacancy from "../../../../schemas/vacancySchema";
 
 export async function GET(req: NextRequest) {
-  const params = Object.fromEntries(req.nextUrl.searchParams);
+  const searchParams = req.nextUrl.searchParams;
+  const page = Number(searchParams.get("page")) || 1;
+  const limit = Number(searchParams.get("limit")) || 25;
+  searchParams.delete("page"); // remove page and limit
+  searchParams.delete("limit");
+  const params = Object.fromEntries(searchParams); // pass query to db
 
   console.log(params);
 
@@ -19,23 +24,23 @@ export async function GET(req: NextRequest) {
     if (Object.keys(params).length === 0) {
       // if no query, return all vacancies
       vacancies = await Vacancy.find({})
-        .limit(25)
-        .skip((1 - 1) * 25)
+        .limit(limit)
+        .skip((page - 1) * limit)
         .sort({ _id: -1 });
       totalVacancies = await Vacancy.countDocuments();
     } else {
       // search for vacancies
       vacancies = await Vacancy.find(params)
-        .limit(25)
-        .skip((1 - 1) * 25)
+        .limit(limit)
+        .skip((page - 1) * limit)
         .sort({ _id: -1 });
 
       totalVacancies = await Vacancy.countDocuments(params);
     }
 
     return Response.json({
-      totalPages: Math.ceil(totalVacancies / 25), // total pages
-      currentPage: 1,
+      totalPages: Math.ceil(totalVacancies / limit), // total pages
+      currentPage: page,
       vacancies,
     });
   } catch (error) {
