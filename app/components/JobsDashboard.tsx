@@ -27,11 +27,13 @@ const JobsDashboard = async ({ query, currentPage }: Props) => {
         <div className="border border-[rgb(11_93_102)] rounded-lg p-4 flex justify-between items-center">
           <Search placeholder="Search for a job..." />
         </div>
-        <div id="dashboard-jobs" className="grid grid-cols-[1fr_1fr_1fr] gap-3">
+        <div id="dashboard-jobs" className="grid grid-cols-3 gap-3">
           {data.vacancies
             .filter((v) => v.active)
             .map((vacancy: Vacancy) => (
-              <JobCard key={vacancy.vacancy_id} vacancy={vacancy} />
+              <div key={vacancy.vacancy_id}>
+                <JobCard vacancy={vacancy} />
+              </div>
             ))}
         </div>
       </section>
