@@ -5,7 +5,7 @@ import Vacancy from "../../../../schemas/vacancySchema";
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const page = Number(searchParams.get("page")) || 1;
-  const limit = Number(searchParams.get("limit")) || 25;
+  const limit = Number(searchParams.get("limit")) || 30;
   searchParams.delete("page"); // remove page and limit
   searchParams.delete("limit");
   const params = Object.fromEntries(searchParams); // pass query to db
