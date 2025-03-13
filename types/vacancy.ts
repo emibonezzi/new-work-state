@@ -40,5 +40,10 @@ export default interface Vacancy {
   email_address: string;
   street: string;
   notes_on_applying: string;
+  macroArea: string;
+  nyRegion: string;
+  educationalRequirements: string;
+  workExperienceRequirements: string;
+  salaryRange: string;
   __v: 0;
 }
